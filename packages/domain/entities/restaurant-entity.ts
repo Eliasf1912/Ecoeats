@@ -1,4 +1,7 @@
-interface restaurant {
+import { address } from "../value-objects"
+import { restaurantStatus } from "../enums"
+
+export interface restaurant {
     id : string,
     name : string,
     description : string,

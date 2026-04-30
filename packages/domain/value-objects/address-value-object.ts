@@ -1,4 +1,4 @@
-type address =  { 
+export type address =  { 
     street : string,
     city : string,
     country : string,
