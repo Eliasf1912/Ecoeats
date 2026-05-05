@@ -1,4 +1,6 @@
 export interface cartItem {
-    menuItem : string,
-    quantity : string
+    id : string,
+    menuItemId : string,
+    quantity : number,
+    unitPrice : number,
 }

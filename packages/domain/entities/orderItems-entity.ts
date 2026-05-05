@@ -4,3 +4,10 @@ export interface orderItem {
     unitPrice : number
     quantity : number,
 }
+
+export interface cartItem {
+    id : string,
+    menuItemId : string,
+    quantity : number,
+    unitPrice : number,
+}
