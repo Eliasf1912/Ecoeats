@@ -37,7 +37,21 @@ export class Cart {
     }
 
     public isEmpty() : boolean {
-      return this.items.length === 0;
+        return this.items.length === 0;
+    }
+
+    public isItemIn(itemId : string) : boolean {
+        return this.items.some((item) => item.id === itemId);
+    }
+
+    public removeItem(itemId : string) : void {
+        const isItemIn = this.isItemIn(itemId);
+        if(!isItemIn){
+            throw  new Error("Le panier n'existe pas dans le panier !");
+        }
+
+        this.items = this.items.filter((item) => item.id !== itemId);
+
     }
 
     public clear() : void {

@@ -7,6 +7,7 @@
     récupérer le cart
     vérifier qu’il existe
     vérifier qu’il n’est pas vide
+    récuopérer le restaurant et vérifier qu'il existe et qu'il n'est pas fermé
     récupérer les menuItems
     vérifier les stocks
     calculer :
@@ -24,7 +25,7 @@ import { cartRepository, menuItemRepository, orderRepository, restaurantReposito
 import { orderStatus } from "../../../domain/enums";
 import { randomUUID } from "crypto";
 import { DistanceService } from "../../../domain/services";
-import { SERVICE_FEE } from "../../../domain/constants";
+import { SERVICE_FEE } from "../../../domain/constants/";
 
 export class CreateOrder { 
 
@@ -35,7 +36,7 @@ export class CreateOrder {
         private readonly restaurantRepository : restaurantRepository,
     ) {}
 
-    public async execute(clientId : string, deliveryAddress : address) : Promise<void> {
+    public async execute(clientId : string, deliveryAddress : address) : Promise<Order> {
         
         let cart = await this.cartRepository.findByClientId(clientId);
 
@@ -59,6 +60,10 @@ export class CreateOrder {
             throw new Error("Le restaurant n'existe pas !");
         }
 
+        if(!restaurant.isOpen()){
+            throw new Error("Le restaurant est fermé !");
+        }
+
         const items = cart.getItems();
 
         for( const menuItem of items ) {
@@ -68,7 +73,7 @@ export class CreateOrder {
                 throw new Error("Le produit n'existe pas !");
             }
 
-            if(item.stock === 0){
+            if(item.getStock() === 0){
                 throw new Error("Rupture de stock");
             }
         }
@@ -82,19 +87,23 @@ export class CreateOrder {
 
         const totalPrice = items.reduce((total,item) =>total + (item.unitPrice * item.quantity),0)
 
-        const deliverFee = DistanceService.calculateDeliveryFee(restaurant.address.lat,restaurant.address.lng,deliveryAddress.lat,deliveryAddress.lng);
+        const distance = DistanceService.calculateDistance(restaurant.getAddress().lat,restaurant.getAddress().lng,deliveryAddress.lat,deliveryAddress.lng)
+
+        const deliverFee = DistanceService.calculateDeliveryFee(distance);
 
         const serviceFee = totalPrice * SERVICE_FEE;
 
         const dateNow =  new Date();
 
-        const  order = new Order(randomUUID(),clientId,restaurant.id,orderStatus.CREATED,orderItems,totalPrice,deliverFee,serviceFee,deliveryAddress,restaurant.address,null,null,dateNow,null);
+        const  order = new Order(randomUUID(),clientId,restaurant.getRestaurantId(),orderStatus.CREATED,orderItems,totalPrice,deliverFee,serviceFee,deliveryAddress,restaurant.getAddress(),null,null,dateNow,dateNow);
 
         await this.orderRepository.save(order);
         
         cart.clear();
         
         await this.cartRepository.save(cart);
+
+        return order
     }
 
 }

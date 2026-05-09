@@ -47,7 +47,9 @@ export class AddItemToCart {
             throw new Error("Produit introuvable");
         }
         
-        if(menuItem.stock === 0){
+        const stock = menuItem.getStock();
+
+        if(stock === 0){
             throw new Error("Rupture de stock");
         }
 
@@ -55,7 +57,10 @@ export class AddItemToCart {
             cart = new Cart(randomUUID(),clientId,null,[]);
         }
 
-        cart.addItem(menuItemId,quantity,menuItem.price,menuItem.restaurantId);
+        const restaurantId = menuItem.getRestaurantId();
+        const price = menuItem.getPrice();
+
+        cart.addItem(menuItemId,quantity,price,restaurantId);
         
         await this.cartRepository.save(cart);
 

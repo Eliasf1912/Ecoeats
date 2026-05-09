@@ -1,6 +1,9 @@
-import { menuItem } from "../../domain/entities";
+import { MenuItem } from "../../domain/entities";
 
 export interface menuItemRepository { 
-    findById(menuItemId : string) : Promise<menuItem | null>
-    findByIds(menuItemIds : string[]) : Promise<menuItem[] | []>
+    findById(menuItemId : string) : Promise<MenuItem | null>
+    findByIds(menuItemIds : string[]) : Promise<MenuItem[] | []>
+    finditemsByRestaurantId(restaurantId : string) : Promise<MenuItem[] | []>
+    save(menuItem : MenuItem) : Promise<void>
+    delete(menuItemId: string): Promise<void>
 }

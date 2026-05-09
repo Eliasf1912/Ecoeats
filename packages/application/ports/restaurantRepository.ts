@@ -1,5 +1,5 @@
-import { restaurant } from "../../domain/entities";
+import { Restaurant } from "../../domain/entities";
 
 export interface restaurantRepository { 
-    findById(restaurantId : string) : Promise<restaurant | null>
+    findById(restaurantId : string | null) : Promise<Restaurant | null>
 }
