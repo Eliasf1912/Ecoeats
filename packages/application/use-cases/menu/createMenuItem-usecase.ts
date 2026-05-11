@@ -39,7 +39,7 @@ export class CreateMenuItem {
             throw new Error("Le restaurant n'existe pas !")
         }
 
-        const restaurantMenuItems = await this.menuItemRepository.finditemsByRestaurantId(menuItemDTO.restaurantId);
+        const restaurantMenuItems = await this.menuItemRepository.findItemsByRestaurantId(menuItemDTO.restaurantId);
 
         if(restaurantMenuItems.length > 0) {
             restaurantMenuItems.forEach( menu => {

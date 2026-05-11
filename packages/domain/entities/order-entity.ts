@@ -142,4 +142,9 @@ export class Order {
     return this.paidAt;
   }
 
+  public getId() : string {
+    return this.id;
+  }
+
+
 }

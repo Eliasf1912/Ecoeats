@@ -71,5 +71,9 @@ export class Cart {
         return this.clientId;
     }
 
+    public getId() : string {
+        return this.id;
+    }
+
 }
 

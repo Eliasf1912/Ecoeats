@@ -2,8 +2,7 @@ import { MenuItem } from "../../domain/entities";
 
 export interface menuItemRepository { 
     findById(menuItemId : string) : Promise<MenuItem | null>
-    findByIds(menuItemIds : string[]) : Promise<MenuItem[] | []>
-    finditemsByRestaurantId(restaurantId : string) : Promise<MenuItem[] | []>
+    findItemsByRestaurantId(restaurantId : string) : Promise<MenuItem[] | []>
     save(menuItem : MenuItem) : Promise<void>
     delete(menuItemId: string): Promise<void>
 }

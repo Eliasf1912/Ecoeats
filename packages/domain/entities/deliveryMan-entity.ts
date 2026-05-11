@@ -64,4 +64,8 @@ export class DeliveryMan {
     public addEarnings(amount: number): void {
         this.wallet.balance += amount;
     }
+
+    public getId() : string { 
+        return this.id;
+    }
 }

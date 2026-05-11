@@ -96,5 +96,9 @@ export class Delivery {
         return this.earnings;
     }
 
+    public getId() : string {
+        return this.id;
+    }
+
 }
 

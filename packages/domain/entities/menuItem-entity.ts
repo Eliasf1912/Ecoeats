@@ -33,4 +33,8 @@ export class MenuItem {
     public getName() : string {
         return this.name;
     }
+
+    public getId() : string {
+        return this.id;
+    }
 }
