@@ -1,10 +1,11 @@
 
 import { orderRepository } from "../../ports";
-
+import { AssigneDelivery } from "../"
 export class MarkOrderAsReady {
 
     constructor(
         private readonly orderRepository : orderRepository,
+        private readonly assigneDelivery : AssigneDelivery,
     ) {}
 
     public async execute(orderId : string) : Promise<void> {
@@ -19,6 +20,7 @@ export class MarkOrderAsReady {
 
         await this.orderRepository.save(order);
 
+        await this.assigneDelivery.execute(orderId);
     }
 
 }

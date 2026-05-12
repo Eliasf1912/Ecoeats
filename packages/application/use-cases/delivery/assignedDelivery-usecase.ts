@@ -13,17 +13,20 @@
  * - créer la livraison en initialisant la date de création, avec le status Pending
  * - sauvergarder la livraison
 */
-import { orderRepository, deliveryRepository } from "../../ports";
+import { orderRepository, deliveryRepository, deliveryManRepository } from "../../ports";
 import { Delivery } from "../../../domain/entities";
 import { randomUUID } from "crypto";
 import { DistanceService } from "../../../domain/services";
 import { deliveryStatus } from "../../../domain/enums";
+import { ProposeDelivery } from "./poposeDelivery-usecase";
 
 export class AssigneDelivery {
 
     constructor(
         private readonly orderRepository : orderRepository,
         private readonly deliveryRepository : deliveryRepository,
+        private readonly deliveryManRepository : deliveryManRepository,
+        private readonly proposeDelivery : ProposeDelivery,
     ){}
 
     public async execute (orderId : string) : Promise<void> {
@@ -48,6 +51,14 @@ export class AssigneDelivery {
         const delivery = new Delivery(deliveryId,orderId,deliveryDistance,deliveryStatus.PENDING);
 
         await this.deliveryRepository.save(delivery);
+
+        const deliveryMan = await this.deliveryManRepository.findAvailable();
+
+        if(!deliveryMan) {
+            throw new Error("Aucun livreur disponible !");
+        }
+
+        await this.proposeDelivery.execute(deliveryId,deliveryMan.getId());
 
     }
 

@@ -34,19 +34,21 @@ export class RegisterClient {
             throw new Error("L'adresse email existe déja !");
         }
 
-        if(!registerInfo.password || ValidationService.verifyPassword(registerInfo.password)){
+        console.log("condition password:", !registerInfo.password || !ValidationService.verifyPassword(registerInfo.password));
+
+        if(!registerInfo.password || !ValidationService.verifyPassword(registerInfo.password)){
             throw new Error("Le mot de passe doit contenir au minimum 8 caractères, 1 majuscule, 1 chiffre, 1 caractére spécial !");
         }
 
-        if(!registerInfo.address || ValidationService.verifyAddress(registerInfo.address)){
+        if(!registerInfo.address || !ValidationService.verifyAddress(registerInfo.address)){
             throw new Error("L'address doit est manquane ou imcomplete !");
         }
 
-        if(!registerInfo.name || ValidationService.verifyRegular(registerInfo.name)){
+        if(!registerInfo.name || !ValidationService.verifyRegular(registerInfo.name)){
             throw new Error("Le nom est manquant ou pas assez long !");
         }
 
-        if(!registerInfo.surname || ValidationService.verifyRegular(registerInfo.surname)){
+        if(!registerInfo.surname || !ValidationService.verifyRegular(registerInfo.surname)){
             throw new Error("Le nom de famille est manquant ou pas assez long !");
         }
 

@@ -8,7 +8,7 @@
 
 import { clientRepository } from "../../../ports";
 import { PasswordService, TokenService } from "../../../../infrastructure/services";
-import { LoginClientDTO } from "../../../dto";
+import { LoginDTO } from "../../../dto";
 
 export class LoginClient {
 
@@ -18,7 +18,7 @@ export class LoginClient {
         private readonly tokenService : TokenService
     ){}
 
-    public async execute( loginInfo : LoginClientDTO) : Promise<string> {
+    public async execute( loginInfo : LoginDTO) : Promise<string> {
 
         if(!loginInfo.email){
             throw new Error("l'email est manquante !");

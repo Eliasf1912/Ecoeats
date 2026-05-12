@@ -6,9 +6,9 @@ export class ClearCart {
         private readonly cartRepository : cartRepository
     ) {}
 
-    public async execute (cartId : string) : Promise<void> {
+    public async execute (clientId : string) : Promise<void> {
         
-        const cart = await this.cartRepository.findById(cartId);
+        const cart = await this.cartRepository.findByClientId(clientId);
 
         if(!cart){
             throw  new Error("Le panier n'existe pas !");

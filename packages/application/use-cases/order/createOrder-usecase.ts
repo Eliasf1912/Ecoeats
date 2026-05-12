@@ -36,7 +36,7 @@ export class CreateOrder {
         private readonly restaurantRepository : restaurantRepository,
     ) {}
 
-    public async execute(clientId : string, deliveryAddress : address) : Promise<Order> {
+    public async execute(clientId : string, deliveryAddress : address) : Promise<string> {
         
         let cart = await this.cartRepository.findByClientId(clientId);
 
@@ -95,7 +95,9 @@ export class CreateOrder {
 
         const dateNow =  new Date();
 
-        const  order = new Order(randomUUID(),clientId,restaurant.getRestaurantId(),orderStatus.CREATED,orderItems,totalPrice,deliverFee,serviceFee,deliveryAddress,restaurant.getAddress(),null,null,dateNow,dateNow);
+        const orderId = randomUUID();
+
+        const  order = new Order(orderId,clientId,restaurant.getRestaurantId(),orderStatus.CREATED,orderItems,totalPrice,deliverFee,serviceFee,deliveryAddress,restaurant.getAddress(),null,null,dateNow,dateNow);
 
         await this.orderRepository.save(order);
         
@@ -103,7 +105,7 @@ export class CreateOrder {
         
         await this.cartRepository.save(cart);
 
-        return order
+        return orderId
     }
 
 }

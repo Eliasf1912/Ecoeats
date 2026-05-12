@@ -13,16 +13,17 @@
  */
 
 import { orderRepository, deliveryManRepository, deliveryRepository } from "../../ports";
-
+import { PayDeliveryMan } from "../payment";
 export class CompleteDelivery {
 
     constructor(
         private readonly orderRepository : orderRepository,
         private readonly deliveryManRepository : deliveryManRepository,
         private readonly deliveryRepository : deliveryRepository,
+        private readonly payDeliveryMan : PayDeliveryMan,
     ){}
 
-    public async execute (orderId : string, deliveryManId : string, deliveryId : string, tip : number = 0) : Promise<void> {
+    public async execute (deliveryManId : string, deliveryId : string, tip : number = 0) : Promise<void> {
 
         const deliveryMan = await this.deliveryManRepository.findById(deliveryManId);
 
@@ -30,16 +31,17 @@ export class CompleteDelivery {
             throw new Error("Le livreur n'existe pas !");
         }
 
-        const order = await this.orderRepository.findById(orderId);
-
-        if(!order){
-            throw new Error("Le commande n'existe pas !");
-        }
-
         const delivery = await this.deliveryRepository.findById(deliveryId);
 
         if(!delivery){
             throw new Error("La livraison n'existe pas !");
+        }
+
+        
+        const order = await this.orderRepository.findById(delivery.getOrderId());
+
+        if(!order){
+            throw new Error("Le commande n'existe pas !");
         }
 
         delivery.calculateEarnings(delivery.getDistance(),tip);
@@ -53,6 +55,8 @@ export class CompleteDelivery {
         await this.deliveryManRepository.save(deliveryMan);
         await this.orderRepository.save(order);
         await this.deliveryRepository.save(delivery);
+        await this.payDeliveryMan.execute(deliveryId);
+
     }
 
 }

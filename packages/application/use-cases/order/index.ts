@@ -4,3 +4,4 @@ export * from "./markOrderAsReady-usecase";
 export * from "./previewOrder-usecase";
 export * from "./refuseOrder-usecase";
 export * from "./startPreparingOrder-usecase";
+export * from "./createOrder-usecase"

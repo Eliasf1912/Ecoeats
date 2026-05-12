@@ -8,13 +8,16 @@
     sauvegarder le livreur
  */
 
-import { deliveryManRepository, deliveryRepository } from "../../ports";
+import { deliveryManRepository, deliveryRepository, orderRepository } from "../../ports";
+import { GenerateInvoice } from "./generateInvoice-usecase";
 
 export class PayDeliveryMan {
 
     constructor(
         private readonly deliveryManRepository : deliveryManRepository,
-        private readonly deliveryRepository : deliveryRepository
+        private readonly deliveryRepository : deliveryRepository,
+        private readonly orderRepository : orderRepository,
+        private readonly generateInvoice : GenerateInvoice
     ) {}
 
     public async execute(deliveryId : string) {
@@ -58,6 +61,16 @@ export class PayDeliveryMan {
         deliveryMan.addEarnings(earnings);
 
         await this.deliveryManRepository.save(deliveryMan);
+
+        const orderId = delivery.getOrderId();
+
+        const order = await this.orderRepository.findById(orderId);
+
+        if(!order) {
+            throw new Error("Le commmande n'existe pas !");
+        }
+
+        await this.generateInvoice.execute(orderId);
 
     }
 }

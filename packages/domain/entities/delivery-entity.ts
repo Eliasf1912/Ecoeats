@@ -100,5 +100,9 @@ export class Delivery {
         return this.id;
     }
 
+    public getOrderId() : string {
+        return this.orderId;
+    }
+
 }
 

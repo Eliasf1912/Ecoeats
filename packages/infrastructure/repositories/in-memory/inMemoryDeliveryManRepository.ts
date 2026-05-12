@@ -24,4 +24,13 @@ export class InMemoryDeliveryManRepository implements deliveryManRepository{
         return null;
     }
 
+    async findAvailable() : Promise<DeliveryMan | null> {
+        for(const deliveryMan of this.deliveryMen.values()) {
+            if(deliveryMan.isAvailable()) {
+                return deliveryMan;
+            }
+        }
+        return null;
+    }
+
 }
