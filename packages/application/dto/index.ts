@@ -2,3 +2,8 @@ export * from "./MenuItemDTO";
 export * from "./updateMenuItemDTO";
 export * from "./orderPreviewDTO";
 export * from "./invoiceDTO";
+export * from "./authResponseDTO";
+export * from "./registerClientDTO";
+export * from "./loginDTO";
+export * from "./registerRestaurantDTO";
+export * from "./registerDeliveryManDTO";

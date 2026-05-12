@@ -29,4 +29,16 @@ export class Restaurant {
     public getAddress() : address { 
         return this.address;
     }
+
+    public getPassword() : string { 
+        return this.password;
+    }
+
+    public getEmail() : string { 
+        return this.email;
+    }
+
+    public getId() : string { 
+        return this.id;
+    }
 }

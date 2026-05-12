@@ -68,4 +68,12 @@ export class DeliveryMan {
     public getId() : string { 
         return this.id;
     }
+
+    public getEmail() : string {
+        return this.email;
+    }
+
+    public getPassword() : string {
+        return this.password;
+    }
 }

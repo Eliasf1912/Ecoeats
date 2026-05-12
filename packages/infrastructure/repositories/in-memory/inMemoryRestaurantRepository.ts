@@ -9,4 +9,17 @@ export class InMemoryRestaurantRepository implements restaurantRepository {
         return this.restaurants.get(restaurantId) ?? null;
     }
 
+    async findByEmail(email: string): Promise<Restaurant | null> {
+        for(const restaurant of this.restaurants.values()) {
+            if(restaurant.getEmail() === email) {
+                return restaurant;
+            }
+        }
+        return null;
+    }
+
+    async save(restaurant: Restaurant): Promise<void> {
+        this.restaurants.set(restaurant.getId(), restaurant);
+    }
+
 }

@@ -14,4 +14,14 @@ export class InMemoryDeliveryManRepository implements deliveryManRepository{
         return this.deliveryMen.get(deliveryManId) ?? null;
     }
 
+    
+    async findByEmail(email: string): Promise<DeliveryMan | null> {
+        for(const deliveryMan of this.deliveryMen.values()) {
+            if(deliveryMan.getEmail() === email) {
+                return deliveryMan;
+            }
+        }
+        return null;
+    }
+
 }
