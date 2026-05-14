@@ -4,12 +4,10 @@ import { authRouter, menuRouter, cartRouter, orderRouter, deliveryRouter, delive
 
 const app = express();
 
-// Middlewares
 app.use(express.json());
 app.use(cors());
 app.use(express.urlencoded({ extended: true }));
 
-// Routes (on les ajoutera après)
 app.use("/auth", authRouter);
 app.use("/cart", cartRouter);
 app.use("/menu", menuRouter);

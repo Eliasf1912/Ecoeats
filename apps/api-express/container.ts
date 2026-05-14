@@ -1,24 +1,24 @@
-import { InMemoryClientRepository, InMemoryRestaurantRepository, InMemoryDeliveryManRepository, InMemoryCartRepository, InMemoryMenuItemRepository, InMemoryDeliveryRepository, InMemoryOrderRepository } from '../../packages/infrastructure/repositories/in-memory/index.js';
+import buildRepositories from '../../packages/infrastructure/containerFactory.js';
+import type { RepoImpl } from '../../packages/infrastructure/containerFactory.js';
 import { PasswordService } from '../../packages/infrastructure/services/index.js';
 import { TokenService } from '../../packages/infrastructure/services/';
 import { LoginClient, RegisterClient, RegisterRestaurant, LoginRestaurant, LoginDeliveryMan, RegisterDeliveryMan, AddItemToCart, RemoveItemFromCart, ClearCart, AcceptDelivery, AssigneDelivery, CompleteDelivery, PickupDelivery, ProposeDelivery, RefuseDelivery, CreateMenuItem, GetMenuItem, RemoveMenuItem, UpdateMenuItem, AcceptOrder, CancelOrder, MarkOrderAsReady, PreviewOrder, RefuseOrder, StartPreparingOrder, CreateOrder, UpdateDeliveryManState, GenerateInvoice, PayDeliveryMan, GetProposedDelivery, GetRestaurant, GetAllRestaurants, GetMenuItemsByRestaurant, GetCart } from '../../packages/application/use-cases';
 
-// Repositories inMemorry
-export const clientRepository = new InMemoryClientRepository();
-export const restaurantRepository = new InMemoryRestaurantRepository();
-export const deliveryManRepository = new InMemoryDeliveryManRepository();
-export const cartRepository = new InMemoryCartRepository();
-export const menuItemRepository = new InMemoryMenuItemRepository();
-export const deliveryRepository = new InMemoryDeliveryRepository();
-export const orderRepository = new InMemoryOrderRepository();
+// impl de la bdd
+const impl = (process.env.REPO_IMPL as RepoImpl) ?? 'inmemory';
+const {
+    clientRepository,
+    restaurantRepository,
+    deliveryManRepository,
+    cartRepository,
+    menuItemRepository,
+    deliveryRepository,
+    orderRepository,
+} = buildRepositories(impl);
 
-// Repository PostgresSQL ( à commenter puis décommenté )
-
-// Services
 export const passwordService = new PasswordService();
 export const tokenService = new TokenService();
 
-// Use Cases 
 
 // ---------------------- auth -------------------------- //
     export const registerClientUseCase = new RegisterClient(
