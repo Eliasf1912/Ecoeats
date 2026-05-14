@@ -1,7 +1,6 @@
 version: '3.8'
 
 services:
-  # PostgreSQL
   postgres:
     image: postgres:15
     container_name: ecoeats-postgres
@@ -13,30 +12,10 @@ services:
       - "${DB_PORT}:5432"
     volumes:
       - postgres_data:/var/lib/postgresql/data
-      - ./schema.sql:/docker-entrypoint-initdb.d/schema.sql
+      - ./schema.sql:/docker-entrypoint-initdb.d/01-schema.sql
+      - ./fixtures.sql:/docker-entrypoint-initdb.d/02-fixtures.sql
     networks:
       - ecoeats-network
-
-  # API Node.js
-  api:
-    build: .
-    container_name: ecoeats-api
-    environment:
-      DB_TYPE: ${DB_TYPE}
-      DB_HOST: postgres
-      DB_PORT: 5432
-      DB_USER: ${DB_USER}
-      DB_PASSWORD: ${DB_PASSWORD}
-      DB_NAME: ${DB_NAME}
-      JWT_SECRET: ${JWT_SECRET}
-      REPO_IMPL: ${REPO_IMPL}
-    ports:
-      - "3000:3000"
-    depends_on:
-      - postgres
-    networks:
-      - ecoeats-network
-    command: npm start
 
 volumes:
   postgres_data:
