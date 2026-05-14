@@ -19,7 +19,7 @@ export class CreateMenuItem {
         private readonly menuItemRepository : menuItemRepository,
     ) {}
 
-    public async execute(menuItemDTO : CreateMenuItemDTO) : Promise<void> {
+    public async execute(menuItemDTO : CreateMenuItemDTO) : Promise<string> {
 
         if(menuItemDTO.name.length === 0){
             throw new Error("Le nom nep eut pas être vide !")
@@ -54,6 +54,8 @@ export class CreateMenuItem {
         const newMenuItem = new MenuItem(randomUUID(),menuItemDTO.restaurantId,menuItemDTO.name,menuItemDTO.description,menuItemDTO.price,menuItemDTO.stock,menuItemDTO.allergens);
 
         await this.menuItemRepository.save(newMenuItem);
+
+        return newMenuItem.getId();
         
     }
 

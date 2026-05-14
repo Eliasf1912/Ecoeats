@@ -2,6 +2,7 @@ export interface OrderPreviewDTO {
     totalPrice: number,
     deliveryFee: number,
     serviceFee: number,
+    tip: number,
     finalPrice: number,
     items: {
         name: string,
@@ -9,5 +10,5 @@ export interface OrderPreviewDTO {
         unitPrice: number,
         subtotal: number
     }[],
-    estimatedDeliveryDistance: number 
+    estimatedDeliveryDistance: number
 }

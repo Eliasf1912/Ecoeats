@@ -5,4 +5,5 @@ export * from "./order.controller";
 export * from "./delivery-controller";
 export * from "./payment-controller";
 export * from "./deliveryMan-controller";
+export * from "./restaurant-controller";
 

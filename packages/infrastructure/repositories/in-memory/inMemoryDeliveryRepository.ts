@@ -14,4 +14,14 @@ export class InMemoryDeliveryRepository implements deliveryRepository{
         return this.deliveries.get(deliveryId) ?? null;
     }
 
+    async findAllProposedDeliveriesByDeliveryManId(deliveryManId: string): Promise<Delivery[]> {
+        const result: Delivery[] = [];
+        for(const delivery of this.deliveries.values()) {
+            if(delivery.getDeliveryManId() === deliveryManId && delivery.isProposed()) {
+                result.push(delivery);
+            }
+        }
+        return result;
+    }
+
 }

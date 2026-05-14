@@ -16,9 +16,15 @@ export class PickupDelivery {
         private readonly deliveryRepository : deliveryRepository,
     ){}
 
-    public async execute(orderId : string, deliveryId : string) : Promise<void> {
+    public async execute(deliveryId : string) : Promise<void> {
 
-        const order = await this.orderRepository.findById(orderId);
+        const delivery = await this.deliveryRepository.findById(deliveryId);
+
+        if(!delivery){
+            throw new Error("La livraison n'existe pas !");
+        }
+
+        const order = await this.orderRepository.findById(delivery.getOrderId());
 
         if(!order){
             throw new Error("Le commande n'existe pas !");
@@ -28,12 +34,6 @@ export class PickupDelivery {
 
         if(!isOrderReady){
             throw new Error("Le commande n'est pas prête !");
-        }
-
-        const delivery = await this.deliveryRepository.findById(deliveryId);
-
-        if(!delivery){
-            throw new Error("La livraison n'existe pas !");
         }
 
         const canBePickup = delivery.canBePickeup();

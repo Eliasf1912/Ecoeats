@@ -36,7 +36,7 @@ export class CreateOrder {
         private readonly restaurantRepository : restaurantRepository,
     ) {}
 
-    public async execute(clientId : string, deliveryAddress : address) : Promise<string> {
+    public async execute(clientId : string, deliveryAddress : address, tip: number = 0) : Promise<string> {
         
         let cart = await this.cartRepository.findByClientId(clientId);
 
@@ -91,13 +91,13 @@ export class CreateOrder {
 
         const deliverFee = DistanceService.calculateDeliveryFee(distance);
 
-        const serviceFee = totalPrice * SERVICE_FEE;
+        const serviceFee = Math.round(totalPrice * SERVICE_FEE * 100) / 100;
 
         const dateNow =  new Date();
 
         const orderId = randomUUID();
 
-        const  order = new Order(orderId,clientId,restaurant.getRestaurantId(),orderStatus.CREATED,orderItems,totalPrice,deliverFee,serviceFee,deliveryAddress,restaurant.getAddress(),null,null,dateNow,dateNow);
+        const  order = new Order(orderId,clientId,restaurant.getRestaurantId(),orderStatus.CREATED,orderItems,totalPrice,deliverFee,serviceFee,deliveryAddress,restaurant.getAddress(),null,null,dateNow,dateNow, tip);
 
         await this.orderRepository.save(order);
         

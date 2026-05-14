@@ -5,3 +5,4 @@ export * from "./order-routes";
 export * from "./delivery-routes";
 export * from "./deliveryMan-routes";
 export * from "./payment-routes";
+export * from "./restaurant-routes";

@@ -46,8 +46,8 @@ export const createMenuItem = async (req : Request, res : Response) => {
             return
         }
 
-        await createMenuItemUseCase.execute(dto);
-        res.status(200).json("Le produit à été créer");
+        const menuItemId = await createMenuItemUseCase.execute(dto);
+        res.status(200).json({ message: "Le produit a été créé", menuItemId: menuItemId });
     } catch (error : any) {
         res.status(400).json({message : error.message})
     }

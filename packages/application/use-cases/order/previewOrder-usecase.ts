@@ -21,7 +21,7 @@ export class PreviewOrder {
         
     }
 
-    public async execute(clientId : string, deliveryAddress : address) : Promise<OrderPreviewDTO> {
+    public async execute(clientId : string, deliveryAddress : address, tip: number = 0) : Promise<OrderPreviewDTO> {
 
         let cart = await this.cartRepository.findByClientId(clientId);
 
@@ -78,9 +78,9 @@ export class PreviewOrder {
         
         const deliverFee = DistanceService.calculateDeliveryFee(estimatedDistance);
 
-        const serviceFee = totalPrice * SERVICE_FEE;
-
-        const finalPrice = totalPrice + deliverFee + serviceFee;
+       const serviceFee = Math.round(totalPrice * SERVICE_FEE * 100) / 100;
+       
+        const finalPrice = Math.round((totalPrice + deliverFee + serviceFee + tip) * 100) / 100;
 
         const orderPreview : OrderPreviewDTO = {
             totalPrice: totalPrice,
@@ -88,6 +88,7 @@ export class PreviewOrder {
             serviceFee: serviceFee,
             finalPrice: finalPrice,
             items : orderItems,
+            tip : tip,
             estimatedDeliveryDistance : estimatedDistance
         }
 

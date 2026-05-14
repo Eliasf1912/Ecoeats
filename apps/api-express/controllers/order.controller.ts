@@ -5,14 +5,14 @@ export const createOrder = async (req: Request, res: Response) => {
     try {
         const clientId = (req as any).user.id;
 
-        const { deliveryAddress } = req.body;
+        const { deliveryAddress, tip = 0 } = req.body;
 
         if(!deliveryAddress){
             res.status(400).json({ message: "Il manque l'adresse de livraison !" });
             return;
         }
 
-        const orderId = await createOrderUseCase.execute(clientId, deliveryAddress);
+        const orderId = await createOrderUseCase.execute(clientId, deliveryAddress,tip);
         res.status(201).json({ orderId });
     } catch (error: any) {
         res.status(400).json({ message: error.message });
@@ -23,14 +23,14 @@ export const previewOrder = async (req: Request, res: Response) => {
     try {
         const clientId = (req as any).user.id;
 
-        const { deliveryAddress } = req.body;
+        const { deliveryAddress, tip = 0 } = req.body;
 
         if(!deliveryAddress){
             res.status(400).json({ message: "Il manque l'adresse de livraison !" });
             return;
         }
 
-        const orderPreview = await previewOrderUseCase.execute(clientId, deliveryAddress);
+        const orderPreview = await previewOrderUseCase.execute(clientId, deliveryAddress, tip);
         res.status(200).json({ orderPreview });
     } catch (error: any) {
         res.status(400).json({ message: error.message });
