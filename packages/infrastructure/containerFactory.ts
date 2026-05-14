@@ -1,13 +1,22 @@
 import { InMemoryClientRepository, InMemoryRestaurantRepository, InMemoryDeliveryManRepository, InMemoryCartRepository, InMemoryMenuItemRepository, InMemoryDeliveryRepository, InMemoryOrderRepository } from './repositories/in-memory/index.js';
-
-// NOTE: Postgres implementations are optional and can be added under
-// packages/infrastructure/repositories/postgres. For now the factory
-// returns in-memory repositories to keep the project runnable.
+import { createPostgresPool, getPostgresPool } from './config/database.js';
+import { PostgresClientRepository, PostgresRestaurantRepository, PostgresDeliveryManRepository, PostgresCartRepository, PostgresMenuItemRepository, PostgresDeliveryRepository, PostgresOrderRepository } from './repositories/postgres/index.js';
 
 export type RepoImpl = 'inmemory' | 'postgres';
 
-export function buildRepositories(impl: RepoImpl = 'inmemory'){
-    // TODO: when postgres repos exist, instantiate them here
+export function buildRepositories(impl: RepoImpl = 'inmemory') {
+    if (impl === 'postgres') {
+        return {
+            clientRepository: new PostgresClientRepository(getPostgresPool()),
+            restaurantRepository: new PostgresRestaurantRepository(getPostgresPool()),
+            deliveryManRepository: new PostgresDeliveryManRepository(getPostgresPool()),
+            cartRepository: new PostgresCartRepository(getPostgresPool()),
+            menuItemRepository: new PostgresMenuItemRepository(getPostgresPool()),
+            deliveryRepository: new PostgresDeliveryRepository(getPostgresPool()),
+            orderRepository: new PostgresOrderRepository(getPostgresPool()),
+
+        }
+    }
     return {
         clientRepository: new InMemoryClientRepository(),
         restaurantRepository: new InMemoryRestaurantRepository(),

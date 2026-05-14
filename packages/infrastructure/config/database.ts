@@ -1,8 +1,6 @@
 import { Pool, PoolConfig } from 'pg';
 
-/**
- * Configuration de connexion PostgreSQL
- */
+// Configuration de connexion PostgreSQL
 const poolConfig: PoolConfig = {
     host: process.env.DB_HOST || 'localhost',
     port: Number(process.env.DB_PORT) || 5432,
@@ -14,16 +12,14 @@ const poolConfig: PoolConfig = {
     connectionTimeoutMillis: 2000, // Temps maximum d'attente de connexion
 };
 
-/**
- * Crée et retourne une instance de Pool PostgreSQL
- */
+
+//Crée et retourne une instance de Pool PostgreSQL
+
 export const createPostgresPool = (): Pool => {
     return new Pool(poolConfig);
 };
 
-/**
- * Pool singleton pour réutilisation
- */
+//Pool singleton pour réutilisation
 let pool: Pool | null = null;
 
 export const getPostgresPool = (): Pool => {
@@ -33,9 +29,7 @@ export const getPostgresPool = (): Pool => {
     return pool;
 };
 
-/**
- * Ferme le pool de connexions (utile pour les tests ou l'arrêt propre)
- */
+// Ferme le pool de connexions (utile pour les tests ou l'arrêt propre)
 export const closePool = async (): Promise<void> => {
     if (pool) {
         await pool.end();
