@@ -8,8 +8,8 @@ export const generateInvoice = async (req: Request, res: Response) => {
             res.status(400).json({ message: "Il manque l'id de la commande !" });
             return;
         }
-        await generateInvoiceUseCase.execute(orderId);
-        res.status(200).json({ message: "Vous n'êtes plus en ligne !" });
+        const invoice = await generateInvoiceUseCase.execute(orderId);
+        res.status(200).json({ invoice }); 
     } catch (error: any) {
         res.status(400).json({ message: error.message });
     }

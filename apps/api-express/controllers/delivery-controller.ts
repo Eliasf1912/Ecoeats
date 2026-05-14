@@ -1,6 +1,5 @@
-// delivery.controller.ts
 import { Request, Response } from "express";
-import { acceptDeliveryUseCase, refuseDeliveryUseCase, pickupDeliveryUseCase, completeDeliveryUseCase } from "../container";
+import { acceptDeliveryUseCase, refuseDeliveryUseCase, pickupDeliveryUseCase, completeDeliveryUseCase, getProposedDeliveryUseCase } from "../container";
 
 export const acceptDelivery = async (req: Request, res: Response) => {
     try {
@@ -37,12 +36,7 @@ export const pickupDelivery = async (req: Request, res: Response) => {
             res.status(400).json({ message: "Il manque l'id de la livraison !" });
             return;
         }
-        const orderId = String(req.params.orderId);
-        if(!orderId){
-            res.status(400).json({ message: "Il manque l'orderId !" });
-            return;
-        }
-        await pickupDeliveryUseCase.execute(orderId, deliveryId);
+        await pickupDeliveryUseCase.execute(deliveryId);
         res.status(200).json({ message: "Commande récupérée !" });
     } catch (error: any) {
         res.status(400).json({ message: error.message });
@@ -52,18 +46,18 @@ export const pickupDelivery = async (req: Request, res: Response) => {
 export const completeDelivery = async (req: Request, res: Response) => {
     try {
         const deliveryId = String(req.params.id);
-        const deliveryManId = String(req.params.deliveryManId);
+        const deliveryManId = (req as any).user.id;   
         
         if(!deliveryId || !deliveryManId){
             res.status(400).json({ message: "Il manque des paramètres !" });
             return;
         }
 
-        const tip = req.body.tip ?? 0;
-
-        await completeDeliveryUseCase.execute(deliveryManId, deliveryId, tip);
+        await completeDeliveryUseCase.execute(deliveryManId, deliveryId);
         res.status(200).json({ message: "Livraison complétée !" });
     } catch (error: any) {
         res.status(400).json({ message: error.message });
     }
 }
+
+

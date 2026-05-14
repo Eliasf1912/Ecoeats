@@ -1,6 +1,6 @@
 import express from 'express';
 import cors from 'cors';
-import { authRouter, menuRouter, cartRouter, orderRouter, deliveryRouter, deliveryManRouter, payementRouter } from './routes/';
+import { authRouter, menuRouter, cartRouter, orderRouter, deliveryRouter, deliveryManRouter, payementRouter, restaurantRouter } from './routes/';
 
 const app = express();
 
@@ -17,5 +17,6 @@ app.use("/order", orderRouter);
 app.use("/delivery", deliveryRouter);
 app.use("/deliveryMan", deliveryManRouter);
 app.use("/payement", payementRouter);
+app.use("/restaurant", restaurantRouter);
 
 export default app;

@@ -1,7 +1,7 @@
 import { InMemoryClientRepository, InMemoryRestaurantRepository, InMemoryDeliveryManRepository, InMemoryCartRepository, InMemoryMenuItemRepository, InMemoryDeliveryRepository, InMemoryOrderRepository } from '../../packages/infrastructure/repositories/in-memory/index.js';
 import { PasswordService } from '../../packages/infrastructure/services/index.js';
 import { TokenService } from '../../packages/infrastructure/services/';
-import { LoginClient, RegisterClient, RegisterRestaurant, LoginRestaurant, LoginDeliveryMan, RegisterDeliveryMan, AddItemToCart, RemoveItemFromCart, ClearCart, AcceptDelivery, AssigneDelivery, CompleteDelivery, PickupDelivery, ProposeDelivery, RefuseDelivery, CreateMenuItem, GetMenuItem, RemoveMenuItem, UpdateMenuItem, AcceptOrder, CancelOrder, MarkOrderAsReady, PreviewOrder, RefuseOrder, StartPreparingOrder, CreateOrder, UpdateDeliveryManState, GenerateInvoice, PayDeliveryMan } from '../../packages/application/use-cases';
+import { LoginClient, RegisterClient, RegisterRestaurant, LoginRestaurant, LoginDeliveryMan, RegisterDeliveryMan, AddItemToCart, RemoveItemFromCart, ClearCart, AcceptDelivery, AssigneDelivery, CompleteDelivery, PickupDelivery, ProposeDelivery, RefuseDelivery, CreateMenuItem, GetMenuItem, RemoveMenuItem, UpdateMenuItem, AcceptOrder, CancelOrder, MarkOrderAsReady, PreviewOrder, RefuseOrder, StartPreparingOrder, CreateOrder, UpdateDeliveryManState, GenerateInvoice, PayDeliveryMan, GetProposedDelivery, GetRestaurant, GetAllRestaurants, GetMenuItemsByRestaurant, GetCart } from '../../packages/application/use-cases';
 
 // Repositories inMemorry
 export const clientRepository = new InMemoryClientRepository();
@@ -60,6 +60,7 @@ export const tokenService = new TokenService();
     );
     export const removeItemFromCartUseCase = new RemoveItemFromCart(cartRepository);
     export const clearCartUseCase = new ClearCart(cartRepository);
+    export const getCartUseCase = new GetCart(cartRepository);
 
 // ---------------------- payement -------------------------- //
 
@@ -138,5 +139,14 @@ export const tokenService = new TokenService();
 
     export const updateDeliveryManStateUseCase = new UpdateDeliveryManState(deliveryManRepository); 
 
+    export const getProposedDeliveryUseCase = new GetProposedDelivery(deliveryRepository);
 
 
+// ---------------------- restaurant -------------------------- //
+
+    export const getRestaurantUseCase = new GetRestaurant(restaurantRepository);
+    export const getAllRestaurantsUseCase = new GetAllRestaurants(restaurantRepository);
+    export const getMenuItemsByRestaurantUseCase = new GetMenuItemsByRestaurant(
+        restaurantRepository,
+        menuItemRepository
+    )

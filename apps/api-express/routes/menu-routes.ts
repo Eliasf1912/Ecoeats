@@ -7,5 +7,5 @@ export const menuRouter = express.Router();
 
 menuRouter.get("/:id", authMiddleware('restaurant'),  getMenuItem);
 menuRouter.post("/", authMiddleware('restaurant'),  createMenuItem);
-menuRouter.delete("/remove", authMiddleware('restaurant'),  removeMenuItem);
-menuRouter.put("/update", authMiddleware('restaurant'),  updateMenuItem);
+menuRouter.delete("/:id", authMiddleware('restaurant'),  removeMenuItem);
+menuRouter.put("/:id", authMiddleware('restaurant'),  updateMenuItem);

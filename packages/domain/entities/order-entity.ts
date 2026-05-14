@@ -17,7 +17,8 @@ export class Order {
     private prepTime : number | null,
     private acceptedAt : Date | null,
     private readonly createdAt : Date,
-    private paidAt : Date | null
+    private paidAt : Date | null,
+    private tip: number = 0
   ){}
 
   public markAsDelivered() : void { 
@@ -146,5 +147,16 @@ export class Order {
     return this.id;
   }
 
+  public addTip(tip: number): void {
+    if(tip < 0) throw new Error("Le tip ne peut pas être négatif !");
+    this.tip = tip;
+  }
 
+  public getTip(): number {
+    return this.tip;
+  }
+
+  public isDelivered(): boolean {
+    return this.status === orderStatus.DELIVERED;
+  }
 }

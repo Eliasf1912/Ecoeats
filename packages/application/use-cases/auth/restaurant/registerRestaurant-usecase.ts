@@ -64,7 +64,7 @@ export class RegisterRestaurant {
             registerInfo.owner,
             registerInfo.phoneNumber,
             registerInfo.address,
-            restaurantStatus.CLOSE
+            restaurantStatus.OPEN
         );
 
         await this.restaurantRepository.save(restaurant);

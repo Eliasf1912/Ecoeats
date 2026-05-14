@@ -9,12 +9,12 @@ export class DistanceService {
         const a = Math.sin(dLat/2) * Math.sin(dLat/2) + Math.cos(lat1 * Math.PI / 180) * Math.cos(lat2 * Math.PI / 180) * Math.sin(dLng/2) * Math.sin(dLng/2);
         
         const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
-        return R * c;
+        return Math.round((R * c) * 10) / 10;
 
     }
 
     static calculateDeliveryFee(distance : number): number {
-        return distance * DELIVERY_PRICE_PER_KM;
+        return (distance * DELIVERY_PRICE_PER_KM * 10) / 10;
     }
 }
 

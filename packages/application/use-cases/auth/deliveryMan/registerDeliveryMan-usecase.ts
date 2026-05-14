@@ -58,7 +58,7 @@ export class RegisterDeliveryMan {
             passwordHashed,
             registerInfo.phoneNumber,
             deliveryManExperience.BEGINNER,
-            deliveryState.UNAVAILABLE,
+            deliveryState.AVAILABLE,
             registerInfo.transport_type,
             { id: randomUUID(), balance: 0 },
             []

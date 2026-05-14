@@ -22,4 +22,8 @@ export class InMemoryRestaurantRepository implements restaurantRepository {
         this.restaurants.set(restaurant.getId(), restaurant);
     }
 
+    async findAll(): Promise<Restaurant[]> {
+        return Array.from(this.restaurants.values());
+    }
+
 }

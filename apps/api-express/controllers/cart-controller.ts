@@ -1,5 +1,5 @@
 import { Request, Response } from "express"
-import { clearCartUseCase, addItemToCartUseCase, removeItemFromCartUseCase } from "../container"
+import { clearCartUseCase, addItemToCartUseCase, removeItemFromCartUseCase, getCartUseCase } from "../container"
 
 export const clearCart = async (req: Request, res: Response) => {
     try {
@@ -46,6 +46,16 @@ export const removeItemFromCart = async (req: Request, res: Response) => {
 
         await removeItemFromCartUseCase.execute(clientId, itemId);
         res.status(200).json({ message: "Le produit a été retiré du panier !" });
+    } catch (error: any) {
+        res.status(400).json({ message: error.message });
+    }
+}
+
+export const getCart = async (req: Request, res: Response) => {
+    try {
+        const clientId = (req as any).user.id;
+        const cart = await getCartUseCase.execute(clientId);
+        res.status(200).json({ cart });
     } catch (error: any) {
         res.status(400).json({ message: error.message });
     }
