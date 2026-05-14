@@ -12,6 +12,6 @@ export class GetMenuItemsByRestaurant {
         if(!restaurant){
             throw new Error("Le restaurant n'existe pas !");
         }
-        return await this.menuItemRepository.findByRestaurantId(restaurantId);
+        return await this.menuItemRepository.findItemsByRestaurantId(restaurantId);
     }
 }

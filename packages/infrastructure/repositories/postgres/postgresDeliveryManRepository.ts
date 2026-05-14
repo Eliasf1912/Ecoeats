@@ -24,6 +24,14 @@ export class PostgresDeliveryManRepository implements deliveryManRepository {
         return this.mapRowToDeliveryMan(result.rows[0]);
     }
 
+    async findAvailable() : Promise<DeliveryMan | null> {
+        const query = 'SELECT * FROM delivery_men WHERE delivery_state = $1 LIMIT 1';
+        const result = await this.pool.query(query, ["available"]);
+
+        if (result.rows.length === 0) return null;
+        return this.mapRowToDeliveryMan(result.rows[0]);
+    }
+
     async save(deliveryMan: DeliveryMan): Promise<void> {
         const query = `
             INSERT INTO delivery_men (

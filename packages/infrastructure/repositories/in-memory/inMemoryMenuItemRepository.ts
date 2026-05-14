@@ -27,14 +27,4 @@ export class InMemoryMenuItemRepository implements menuItemRepository {
         this.menuItems.delete(menuItemId);
     }
 
-    async findByRestaurantId(restaurantId: string): Promise<MenuItem[]> {
-        const result: MenuItem[] = [];
-        for(const menuItem of this.menuItems.values()) {
-            if(menuItem.getRestaurantId() === restaurantId) {
-                result.push(menuItem);
-            }
-        }
-        return result;
-    }
-
 }

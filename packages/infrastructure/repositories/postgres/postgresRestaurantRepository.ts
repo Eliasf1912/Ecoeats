@@ -59,7 +59,6 @@ export class PostgresRestaurantRepository implements restaurantRepository {
                 updated_at = CURRENT_TIMESTAMP
         `;
 
-        // Récupérer les données via getters et reflection
         const id = restaurant.getId();
         const name = restaurant.getRestaurantName();
         const email = restaurant.getEmail();
@@ -106,5 +105,28 @@ export class PostgresRestaurantRepository implements restaurantRepository {
             addressObj,
             status
         );
+    }
+
+    async findAll(): Promise<Restaurant[]> {
+        const result = await this.pool.query("SELECT * FROM restaurants");
+        
+        return result.rows.map(row => new Restaurant(
+            row.id,
+            row.name,
+            row.description,
+            row.email,
+            row.password,
+            row.owner,
+            row.phone_number,
+            {
+                street: row.street,
+                city: row.city,
+                country: row.country,
+                postal_Code: row.postal_code,
+                lat: row.lat,
+                lng: row.lng
+            },
+            row.status
+        ));
     }
 }

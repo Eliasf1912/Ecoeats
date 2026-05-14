@@ -37,6 +37,15 @@ export class PostgresDeliveryRepository implements deliveryRepository {
         await this.pool.query(query, [id, orderId, deliveryManId, distance, status, earnings]);
     }
 
+    async findAllProposedDeliveriesByDeliveryManId(deliveryManId: string): Promise<Delivery[] | []> {
+        const query = 'SELECT * FROM deliveries WHERE delivery_man_id = $1 AND delivery_status = $2';
+        const result = await this.pool.query(query, [deliveryManId, 'proposed']);
+
+        if (result.rows.length === 0) return [];
+
+        return result.rows.map((row: any) => this.mapRowToDelivery(row));
+    }
+
     private mapRowToDelivery(row: any): Delivery {
         return new Delivery(
             row.id,
@@ -44,6 +53,8 @@ export class PostgresDeliveryRepository implements deliveryRepository {
             parseFloat(row.distance),
             row.delivery_status as deliveryStatus,
             row.delivery_man_id,
+            row.picked_up_at ? new Date(row.picked_up_at) : null,
+            row.delivery_at ? new Date(row.delivery_at) : null,
             row.earnings ? parseFloat(row.earnings) : null
         );
     }

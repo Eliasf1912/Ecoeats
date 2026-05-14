@@ -19,8 +19,8 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "npm run start:express",
-    "start:express": "tsx apps/api-express/server.ts"
+    "start:express": "tsx apps/api-express/server.ts",
+    "start:nest": "tsx apps/api-nest/main.ts"
   },
   "devDependencies": {
     "@nestjs/cli": "^11.0.21",
