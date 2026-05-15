@@ -86,6 +86,15 @@ export class PostgresRestaurantRepository implements restaurantRepository {
     }
 
     /**
+     * Retourne tous les restaurants
+     */
+    async findAll(): Promise<Restaurant[]> {
+        const query = 'SELECT * FROM restaurants';
+        const result = await this.pool.query(query);
+        return result.rows.map((row) => this.mapRowToRestaurant(row));
+    }
+
+    /**
      * Convertit une ligne SQL en entité Restaurant
      */
     private mapRowToRestaurant(row: any): Restaurant {
