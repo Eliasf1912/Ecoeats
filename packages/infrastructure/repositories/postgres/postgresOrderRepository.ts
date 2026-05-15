@@ -68,7 +68,7 @@ export class PostgresOrderRepository implements orderRepository {
                 for (const item of items) {
                     await client.query(insertItemQuery, [
                         item.id, order.getId(), item.menuItemId,
-                        item.name, item.unitPrice, item.quantity
+                        item.unitPrice, item.quantity
                     ]);
                 }
             }
@@ -86,7 +86,6 @@ export class PostgresOrderRepository implements orderRepository {
         const items: orderItem[] = itemRows.map(itemRow => ({
             id: itemRow.id,
             menuItemId: itemRow.menu_item_id,
-            name: itemRow.name,
             unitPrice: parseFloat(itemRow.unit_price),
             quantity: parseInt(itemRow.quantity)
         }));
@@ -100,8 +99,13 @@ export class PostgresOrderRepository implements orderRepository {
             parseFloat(orderRow.total_price),
             parseFloat(orderRow.delivery_fee),
             parseFloat(orderRow.service_fee),
+            orderRow.restaurantAddress,
+            orderRow.delivery_address,
             orderRow.estimated_preparation_time,
-            orderRow.paid_at ? new Date(orderRow.paid_at) : null
+            orderRow.updated_at ? new Date(orderRow.updated_at) : null,
+            orderRow.created_at,
+            orderRow.paid_at ? new Date(orderRow.paid_at) : null,
+            orderRow.notes
         );
     }
 }
